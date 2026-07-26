@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import { MinimalHeader } from "@/components/site/minimal-header";
 import { SignupForm } from "@/components/signup/signup-form";
 import { IconCheck } from "@/components/ui/icons";
+import { BrandLogo } from "@/components/ui/brand-logo";
 import { marketplaceChannels, messagingChannels } from "@/lib/channels";
 
 export const metadata: Metadata = {
@@ -72,14 +73,9 @@ export default function SignupPage() {
                   {[...marketplaceChannels, ...messagingChannels].map((c) => (
                     <li
                       key={c.name}
-                      className="inline-flex items-center gap-2 rounded-full border border-line bg-white py-1.5 pr-3 pl-2"
+                      className="inline-flex items-center gap-2 rounded-full border border-line bg-white py-1.5 pr-3.5 pl-2.5"
                     >
-                      <span
-                        className="flex size-5 items-center justify-center rounded-full"
-                        style={{ backgroundColor: c.tint, color: c.hue }}
-                      >
-                        <c.icon className="size-3" />
-                      </span>
+                      <BrandLogo name={c.brand} className="h-[15px] w-auto shrink-0" decorative />
                       <span className="text-[13px] font-medium text-ink-2">
                         {c.name}
                       </span>

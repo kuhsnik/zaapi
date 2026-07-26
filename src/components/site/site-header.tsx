@@ -5,11 +5,7 @@ import { useEffect, useState } from "react";
 import { LinkButton } from "@/components/ui/button";
 import { Logo } from "@/components/site/logo";
 
-const nav = [
-  { label: "Product", href: "/#tour" },
-  { label: "Channels", href: "/#channels" },
-  { label: "AI agent", href: "/#ai-agent" },
-];
+const nav = [{ label: "Product tour", href: "/#tour" }];
 
 export function SiteHeader() {
   const [scrolled, setScrolled] = useState(false);

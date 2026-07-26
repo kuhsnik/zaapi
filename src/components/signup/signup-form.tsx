@@ -3,7 +3,7 @@
 import Link from "next/link";
 import { useState } from "react";
 import { Button } from "@/components/ui/button";
-import { Field } from "@/components/forms/field";
+import { Field, PasswordField } from "@/components/forms/field";
 import { GoogleButton, OrDivider } from "@/components/forms/google-button";
 import { IconCheck } from "@/components/ui/icons";
 
@@ -37,8 +37,7 @@ export function SignupForm() {
           <span className="font-medium break-all text-ink">
             {email || "your inbox"}
           </span>
-          .
-          Open it and you will land straight on channel setup.
+          . Open it and you will land straight on channel setup.
         </p>
         <div className="mt-8 rounded-2xl border border-line bg-sand p-5">
           <p className="t-h4 text-ink">Next: connect a channel</p>
@@ -63,93 +62,91 @@ export function SignupForm() {
 
   return (
     <div>
-      {/* Heading is set locally rather than with t-h2: this fold is measured,
-          and the display clamp costs vertical space we need for the button. */}
-      <h1 className="font-display text-[1.5rem] leading-[1.12] font-semibold tracking-[-0.028em] text-ink text-balance sm:text-[2rem] lg:text-[2.25rem]">
-        Start your free trial
+      <h1 className="font-display text-[1.5rem] leading-[1.1] font-semibold tracking-[-0.03em] text-ink text-balance sm:text-[2rem] lg:text-[2.25rem]">
+        Get started now
       </h1>
+      {/* Hidden on the smallest screens: it repeats what the button below it
+          already says, and it costs the submit button its place in the fold. */}
+      <p className="t-small mt-2 hidden text-muted sm:block">
+        Continue with Google or get started with your email.
+      </p>
 
-      <div className="mt-4 sm:mt-7">
+      <div className="mt-5 sm:mt-6">
         <GoogleButton />
       </div>
 
-      <div className="my-2.5 sm:my-5">
-        <OrDivider label="or sign up with email" />
+      <div className="my-3 sm:my-5">
+        <OrDivider label="Or" />
       </div>
 
-      <form onSubmit={onSubmit} noValidate={false}>
-        <div className="grid gap-2 sm:gap-4">
-          <Field
-            label="Full name"
-            name="name"
-            type="text"
-            autoComplete="name"
-            placeholder="Ploy Suwan"
-            required
-          />
+      <form onSubmit={onSubmit}>
+        <div className="grid gap-2.5 sm:gap-3">
+          <div className="grid grid-cols-2 gap-2.5 sm:gap-3">
+            <Field
+              label="First name"
+              name="firstName"
+              type="text"
+              autoComplete="given-name"
+              required
+            />
+            <Field
+              label="Last name"
+              name="lastName"
+              type="text"
+              autoComplete="family-name"
+              required
+            />
+          </div>
           <Field
             label="Work email"
             name="email"
             type="email"
             autoComplete="email"
             inputMode="email"
-            placeholder="you@company.com"
             required
             value={email}
             onChange={(e) => setEmail(e.target.value)}
           />
-          <Field
-            label="Company"
-            name="company"
-            type="text"
-            autoComplete="organization"
-            placeholder="Your store or brand"
-            required
-          />
-          <Field
+          <PasswordField
             label="Password"
             name="password"
-            type="password"
             autoComplete="new-password"
-            placeholder="At least 8 characters"
             minLength={8}
             required
           />
         </div>
+
+        <p className="mt-3 text-[11.5px] leading-[1.5] text-muted sm:mt-4 sm:text-[12.5px]">
+          By clicking on Get Started, you agree to the{" "}
+          <Link
+            href="/signup"
+            className="text-teal-700 underline decoration-teal-100 underline-offset-2 hover:decoration-teal-600"
+          >
+            terms of service
+          </Link>{" "}
+          and{" "}
+          <Link
+            href="/signup"
+            className="text-teal-700 underline decoration-teal-100 underline-offset-2 hover:decoration-teal-600"
+          >
+            privacy policy
+          </Link>
+          .
+        </p>
 
         <Button
           type="submit"
           size="lg"
           disabled={state === "sending"}
           data-cta="signup-submit"
-          className="mt-3.5 h-12 w-full sm:mt-6 sm:h-[52px]"
+          className="mt-3.5 h-[52px] w-full sm:mt-4"
         >
-          {state === "sending" ? "Creating your workspace…" : "Create account"}
+          {state === "sending" ? "Creating your workspace…" : "Get Started"}
         </Button>
       </form>
 
-      {/* Reassurance sits under the action, not above it — above it, it pushes
-          the button toward the fold on a small phone for no benefit. */}
-      <p className="t-small mt-3.5 font-medium text-ink-3">
+      <p className="t-small mt-4 font-medium text-ink-3">
         Free for 14 days. No credit card.
-      </p>
-
-      <p className="mt-3 text-[12.5px] leading-relaxed text-muted">
-        By creating an account you agree to our{" "}
-        <Link
-          href="/signup"
-          className="underline decoration-line underline-offset-2 hover:text-ink"
-        >
-          Terms
-        </Link>{" "}
-        and{" "}
-        <Link
-          href="/signup"
-          className="underline decoration-line underline-offset-2 hover:text-ink"
-        >
-          Privacy Policy
-        </Link>
-        .
       </p>
     </div>
   );

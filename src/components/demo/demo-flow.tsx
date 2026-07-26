@@ -253,24 +253,31 @@ export function DemoFlow() {
       </p>
 
       <form onSubmit={onSubmit} className="mt-5 sm:mt-6">
-        <div className="grid gap-2 sm:gap-4">
-          <Field
-            label="Full name"
-            name="name"
-            type="text"
-            autoComplete="name"
-            placeholder="Ploy Suwan"
-            required
-            value={name}
-            onChange={(e) => setName(e.target.value)}
-          />
+        <div className="grid gap-3">
+          <div className="grid grid-cols-2 gap-3">
+            <Field
+              label="First name"
+              name="firstName"
+              type="text"
+              autoComplete="given-name"
+              required
+              value={name}
+              onChange={(e) => setName(e.target.value)}
+            />
+            <Field
+              label="Last name"
+              name="lastName"
+              type="text"
+              autoComplete="family-name"
+              required
+            />
+          </div>
           <Field
             label="Work email"
             name="email"
             type="email"
             autoComplete="email"
             inputMode="email"
-            placeholder="you@company.com"
             required
             value={email}
             onChange={(e) => setEmail(e.target.value)}
@@ -280,16 +287,7 @@ export function DemoFlow() {
             name="company"
             type="text"
             autoComplete="organization"
-            placeholder="Your store or brand"
             required
-          />
-          <Field
-            label="Phone, WhatsApp or LINE"
-            name="phone"
-            type="tel"
-            autoComplete="tel"
-            inputMode="tel"
-            placeholder="+66 8 1234 5678"
           />
         </div>
 
@@ -298,7 +296,7 @@ export function DemoFlow() {
           size="lg"
           disabled={sending}
           data-cta="demo-submit"
-          className="mt-3.5 h-12 w-full sm:mt-6 sm:h-[52px]"
+          className="mt-4 h-[52px] w-full"
         >
           {sending ? "Saving your details…" : "Continue to calendar"}
         </Button>

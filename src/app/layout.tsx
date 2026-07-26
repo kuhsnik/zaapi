@@ -18,14 +18,14 @@ const display = Inter_Tight({
 export const metadata: Metadata = {
   metadataBase: new URL("https://zaapi.com"),
   title: {
-    default: "Zaapi — Stop hiring to answer the same questions",
+    default: "Zaapi — A late reply is a lost order",
     template: "%s · Zaapi",
   },
   description:
-    "Zaapi's AI agent handles up to 92% of customer enquiries across LINE, WhatsApp, Shopee, Lazada, TikTok Shop, Instagram and your website, in one inbox with order history attached.",
+    "Every marketplace and messaging channel in one inbox with order history attached, and an AI agent that answers up to 92% of enquiries in seconds.",
   icons: { icon: "/icon.png", apple: "/icon.png" },
   openGraph: {
-    title: "Zaapi — Stop hiring to answer the same questions",
+    title: "Zaapi — A late reply is a lost order",
     description:
       "One inbox for every marketplace and messaging channel, with an AI agent handling the first layer.",
     type: "website",
