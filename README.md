@@ -43,10 +43,13 @@ comes from Wikimedia Commons. Files are in `/public/brand`.
 The G2 score shown (4.7) was supplied; the star row renders a part-filled fifth
 star rather than five solid stars implying a perfect 5.0.
 
-**The product tour embed is the supplied snippet, unmodified.** React does not
-execute a `<script>` tag rendered inside JSX, so the `<div>` is injected verbatim
-and the identical script `src` is loaded through `next/script`. See
-`src/components/home/product-tour.tsx`.
+**The product tour uses the popup embed.** The trigger carries the supplied
+`data-deckoholic-walkthrough` attribute unmodified, and the identical script
+`src` is loaded through `next/script` because React does not execute a
+`<script>` tag rendered inside JSX. It sits on a designed launcher surface —
+drifting light, a slow sheen pass, pulsing rings and floating channel chips, all
+CSS, all stopped under `prefers-reduced-motion`. See
+`src/components/home/tour-stage.tsx`.
 
 ## Responsive verification
 

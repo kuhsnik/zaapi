@@ -1,20 +1,15 @@
 import Script from "next/script";
 import { IconClock } from "@/components/ui/icons";
 import { LinkButton } from "@/components/ui/button";
+import { TourStage } from "@/components/home/tour-stage";
 
-/* The embed markup below is the snippet supplied in the brief, unmodified.
-   React does not execute a <script> tag rendered inside JSX, so the script is
-   loaded through next/script with the identical src and the <div> is injected
-   verbatim.
+/* Popup embed. The trigger is the button inside <TourStage>, which carries the
+   supplied data-deckoholic-walkthrough attribute unmodified; the identical
+   script src is loaded through next/script because React does not execute a
+   <script> tag rendered inside JSX.
 
-   Alignment note: the embed centres itself (max-width:960px; margin:0 auto).
-   The heading above it therefore sits in a matching 960px column, so the text
-   and the player share one axis instead of drifting apart. */
-const EMBED_HTML = `<div
-    data-deckoholic-inline="kkpyxCBoHFjINtUz"
-    style="aspect-ratio:16/10;max-width:960px;width:100%;margin:0 auto;border:1px solid #e4e4e7;overflow:hidden"
-  ></div>`;
-
+   The stage sits in the same 960px centre column as the heading above it, so
+   the copy and the player share one axis. */
 export function ProductTour() {
   return (
     <section
@@ -47,7 +42,7 @@ export function ProductTour() {
           </div>
 
           <div className="mt-10 md:mt-12">
-            <div dangerouslySetInnerHTML={{ __html: EMBED_HTML }} />
+            <TourStage />
             <Script
               src="https://app.deckoholic.ai/embed/v1.js"
               strategy="afterInteractive"
@@ -58,7 +53,12 @@ export function ProductTour() {
             <LinkButton href="/signup" size="lg" data-cta="tour-trial">
               Start free trial
             </LinkButton>
-            <LinkButton href="/demo" variant="secondary" size="lg" data-cta="tour-demo">
+            <LinkButton
+              href="/demo"
+              variant="secondary"
+              size="lg"
+              data-cta="tour-demo"
+            >
               Book a demo
             </LinkButton>
           </div>

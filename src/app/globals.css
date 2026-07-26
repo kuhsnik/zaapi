@@ -214,3 +214,63 @@ body {
     opacity: 1;
   }
 }
+
+/* --- tour stage ---------------------------------------------------------- */
+/* Slow-drifting light behind the launcher, so the frame reads as a live
+   surface rather than a static image. Long durations on purpose: this sits
+   behind a call to action and must not pull focus from it. */
+@keyframes drift-a {
+  0%,
+  100% {
+    transform: translate3d(-6%, -4%, 0) scale(1);
+  }
+  50% {
+    transform: translate3d(8%, 6%, 0) scale(1.14);
+  }
+}
+
+@keyframes drift-b {
+  0%,
+  100% {
+    transform: translate3d(6%, 5%, 0) scale(1.08);
+  }
+  50% {
+    transform: translate3d(-7%, -6%, 0) scale(0.94);
+  }
+}
+
+/* One pass of light across the frame, then a long pause. */
+@keyframes sheen {
+  0% {
+    transform: translateX(-120%) skewX(-18deg);
+  }
+  38%,
+  100% {
+    transform: translateX(240%) skewX(-18deg);
+  }
+}
+
+/* Rings behind the play control. */
+@keyframes ring {
+  0% {
+    transform: scale(0.82);
+    opacity: 0.5;
+  }
+  70% {
+    opacity: 0;
+  }
+  100% {
+    transform: scale(1.9);
+    opacity: 0;
+  }
+}
+
+@keyframes float-chip {
+  0%,
+  100% {
+    transform: translateY(0);
+  }
+  50% {
+    transform: translateY(-7px);
+  }
+}
