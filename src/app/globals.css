@@ -1,26 +1,216 @@
 @import "tailwindcss";
 
-:root {
-  --background: #ffffff;
-  --foreground: #171717;
+/* ---------------------------------------------------------------------------
+   Zaapi design tokens
+   Teal #00C6A8 and navy #0F172A per brand direction.
+   Mark gradient sampled from logo.webp: #35C1AD -> #4EDCCA
+--------------------------------------------------------------------------- */
+@theme {
+  --color-ink: #0f172a;
+  --color-ink-2: #1e293b;
+  --color-ink-3: #475569;
+  --color-muted: #64748b;
+  --color-faint: #94a3b8;
+
+  --color-teal: #00c6a8;
+  --color-teal-600: #00a68e;
+  --color-teal-700: #00806e;
+  --color-teal-50: #eefbf8;
+  --color-teal-100: #d6f6ef;
+
+  --color-line: #e6e8ec;
+  --color-line-soft: #eef0f3;
+  --color-canvas: #ffffff;
+  --color-sand: #f8f9fb;
+
+  --font-sans: var(--font-inter), ui-sans-serif, system-ui, -apple-system,
+    "Segoe UI", sans-serif;
+  --font-display: var(--font-display), var(--font-inter), ui-sans-serif,
+    system-ui, sans-serif;
+
+  --radius-card: 16px;
 }
 
-@theme inline {
-  --color-background: var(--background);
-  --color-foreground: var(--foreground);
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
+/* --- base ---------------------------------------------------------------- */
+html {
+  -webkit-text-size-adjust: 100%;
+  scroll-behavior: smooth;
+  scroll-padding-top: 84px;
 }
 
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.001ms !important;
+    transition-duration: 0.001ms !important;
   }
 }
 
 body {
-  background: var(--background);
-  color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+  background: var(--color-canvas);
+  color: var(--color-ink);
+  font-family: var(--font-sans);
+  font-synthesis-weight: none;
+  text-rendering: optimizeLegibility;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+::selection {
+  background: #c9f4ec;
+  color: var(--color-ink);
+}
+
+:focus-visible {
+  outline: 2px solid var(--color-teal-600);
+  outline-offset: 2px;
+  border-radius: 4px;
+}
+
+/* --- typography ---------------------------------------------------------- */
+/* One scale, used everywhere. Display sizes carry negative tracking so large
+   type sets tight; body sizes stay near-natural for readability. */
+@utility t-display {
+  font-family: var(--font-display);
+  font-size: clamp(2.375rem, 1.52rem + 3.65vw, 4.25rem);
+  line-height: 1.03;
+  letter-spacing: -0.034em;
+  font-weight: 600;
+}
+
+@utility t-h2 {
+  font-family: var(--font-display);
+  font-size: clamp(1.875rem, 1.4rem + 2.05vw, 3rem);
+  line-height: 1.08;
+  letter-spacing: -0.03em;
+  font-weight: 600;
+}
+
+@utility t-h3 {
+  font-family: var(--font-display);
+  font-size: clamp(1.25rem, 1.13rem + 0.5vw, 1.5rem);
+  line-height: 1.25;
+  letter-spacing: -0.021em;
+  font-weight: 600;
+}
+
+@utility t-h4 {
+  font-family: var(--font-display);
+  font-size: 1.0625rem;
+  line-height: 1.35;
+  letter-spacing: -0.013em;
+  font-weight: 600;
+}
+
+@utility t-lead {
+  font-size: clamp(1.0625rem, 1rem + 0.42vw, 1.3125rem);
+  line-height: 1.55;
+  letter-spacing: -0.011em;
+}
+
+@utility t-body {
+  font-size: 1rem;
+  line-height: 1.65;
+  letter-spacing: -0.005em;
+}
+
+@utility t-small {
+  font-size: 0.875rem;
+  line-height: 1.55;
+}
+
+@utility t-eyebrow {
+  font-size: 0.75rem;
+  line-height: 1;
+  letter-spacing: 0.13em;
+  text-transform: uppercase;
+  font-weight: 600;
+}
+
+@utility t-mono {
+  font-family: ui-monospace, "SF Mono", SFMono-Regular, Menlo, monospace;
+  font-size: 0.75rem;
+  letter-spacing: 0.01em;
+}
+
+/* --- layout -------------------------------------------------------------- */
+@utility container-x {
+  width: 100%;
+  max-width: 1200px;
+  margin-inline: auto;
+  padding-inline: 20px;
+  @media (width >= 640px) {
+    padding-inline: 32px;
+  }
+  @media (width >= 1024px) {
+    padding-inline: 40px;
+  }
+}
+
+/* Section rhythm: 80 / 112 / 144 on the 4px base. */
+@utility section-y {
+  padding-block: 80px;
+  @media (width >= 768px) {
+    padding-block: 112px;
+  }
+  @media (width >= 1024px) {
+    padding-block: 144px;
+  }
+}
+
+@utility section-y-sm {
+  padding-block: 56px;
+  @media (width >= 768px) {
+    padding-block: 72px;
+  }
+}
+
+/* --- surfaces ------------------------------------------------------------ */
+@utility card {
+  background: var(--color-canvas);
+  border: 1px solid var(--color-line);
+  border-radius: var(--radius-card);
+}
+
+@utility mark-gradient {
+  background-image: linear-gradient(148deg, #4edcca 0%, #35c1ad 100%);
+}
+
+/* Restrained elevation. Used only on the product mock, never on content
+   blocks — those are separated with hairlines and space instead. */
+@utility lift {
+  box-shadow:
+    0 1px 2px rgba(15, 23, 42, 0.04),
+    0 8px 20px -8px rgba(15, 23, 42, 0.1),
+    0 32px 64px -32px rgba(15, 23, 42, 0.18);
+}
+
+/* --- motion -------------------------------------------------------------- */
+@keyframes rise {
+  from {
+    opacity: 0;
+    transform: translateY(8px);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+
+@utility animate-rise {
+  animation: rise 0.55s cubic-bezier(0.16, 1, 0.3, 1) both;
+}
+
+@keyframes blink {
+  0%,
+  100% {
+    opacity: 0.22;
+  }
+  50% {
+    opacity: 1;
+  }
 }

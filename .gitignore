@@ -39,3 +39,8 @@ yarn-error.log*
 # typescript
 *.tsbuildinfo
 next-env.d.ts
+
+# assessment source material — NOT for a public repo.
+# The deck contains Zaapi's ad spend, cost per lead and account performance.
+Zaapi_Assessment_Deck.pdf
+*.pdf
