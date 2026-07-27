@@ -1,55 +1,32 @@
-import Script from "next/script";
-import { IconClock } from "@/components/ui/icons";
 import { LinkButton } from "@/components/ui/button";
 import { TourStage } from "@/components/home/tour-stage";
+import { TourEmbedScript } from "@/components/home/tour-embed-script";
 
 /* Popup embed. The trigger is the button inside <TourStage>, which carries the
-   supplied data-deckoholic-walkthrough attribute unmodified; the identical
-   script src is loaded through next/script because React does not execute a
-   <script> tag rendered inside JSX.
+   supplied data-deckoholic-walkthrough attribute unmodified; the script itself
+   is loaded by <TourEmbedScript>.
 
-   The stage sits in the same 960px centre column as the heading above it, so
-   the copy and the player share one axis. */
+   One line of copy above the stage. The heading already says "before you sign
+   up", so a subhead and a "no sign up needed" chip row underneath it were
+   saying the same thing three times and pushing the stage out of view. */
 export function ProductTour() {
   return (
-    <section
-      id="tour"
-      className="scroll-mt-20 border-t border-line bg-sand/50 py-20 md:py-28 lg:py-32"
-    >
+    <section className="border-t border-line bg-sand/50 py-12 md:py-16 lg:py-20">
       <div className="container-x">
-        <div className="mx-auto max-w-[960px]">
-          <div className="text-center">
-            <p className="t-eyebrow text-teal-700">Interactive tour</p>
-            <h2 className="t-h2 mx-auto mt-4 max-w-[20ch] text-ink text-balance">
-              See the product before you sign up
-            </h2>
-            <p className="t-lead mx-auto mt-5 max-w-[54ch] text-ink-3">
-              Two minutes, no form, no sales call. Click through a real Zaapi
-              inbox and watch the AI agent take an enquiry from first message to
-              resolved.
-            </p>
+        {/* The anchor sits on the heading block, not the section, so a click
+            from the hero lands with the heading under the header and the whole
+            stage in view rather than stopping in the section's padding. */}
+        <div id="tour" className="mx-auto max-w-[960px] scroll-mt-[72px]">
+          <h2 className="t-h2 text-center text-ink text-balance">
+            See it before you sign up
+          </h2>
 
-            <div className="mt-6 flex flex-wrap items-center justify-center gap-x-6 gap-y-3">
-              <span className="inline-flex items-center gap-2 text-[0.9375rem] font-medium text-ink-2">
-                <IconClock className="size-4 text-muted" />
-                About two minutes
-              </span>
-              <span className="inline-flex items-center gap-2 text-[0.9375rem] font-medium text-ink-2">
-                <span className="inline-block size-1.5 rounded-full bg-teal" />
-                No sign up needed
-              </span>
-            </div>
-          </div>
-
-          <div className="mt-10 md:mt-12">
+          <div className="mt-6 md:mt-7">
             <TourStage />
-            <Script
-              src="https://app.deckoholic.ai/embed/v1.js"
-              strategy="afterInteractive"
-            />
+            <TourEmbedScript />
           </div>
 
-          <div className="mt-10 flex flex-col items-center gap-3 sm:flex-row sm:justify-center md:mt-12">
+          <div className="mt-8 flex flex-col items-center gap-3 sm:flex-row sm:justify-center md:mt-10">
             <LinkButton href="/signup" size="lg" data-cta="tour-trial">
               Start free trial
             </LinkButton>

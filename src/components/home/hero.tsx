@@ -1,14 +1,61 @@
 import { LinkButton } from "@/components/ui/button";
 import { IconArrowDown } from "@/components/ui/icons";
 import { BrandLogo } from "@/components/ui/brand-logo";
-import { marketplaceChannels, messagingChannels } from "@/lib/channels";
+import {
+  marketplaceChannels,
+  messagingChannels,
+  partnerBrands,
+} from "@/lib/channels";
 
 const allChannels = [...marketplaceChannels, ...messagingChannels];
+const RATING = 4.7;
 
+/* Five stars, the last part-filled to the real score rather than five solid
+   stars implying a perfect 5.0. */
+function Stars({ value }: { value: number }) {
+  return (
+    <span
+      className="flex items-center gap-0.5"
+      role="img"
+      aria-label={`${value} out of 5 stars`}
+    >
+      {Array.from({ length: 5 }).map((_, i) => {
+        const fill = Math.max(0, Math.min(1, value - i));
+        return (
+          <svg
+            key={i}
+            viewBox="0 0 20 20"
+            className="size-[13px]"
+            aria-hidden="true"
+          >
+            <defs>
+              <linearGradient id={`hs-${i}`} x1="0" x2="1" y1="0" y2="0">
+                <stop offset={fill} stopColor="#FF492C" />
+                <stop offset={fill} stopColor="#D8DBE1" />
+              </linearGradient>
+            </defs>
+            <path
+              fill={`url(#hs-${i})`}
+              d="M10 1.6l2.47 5.01 5.53.8-4 3.9.94 5.5L10 14.2l-4.94 2.6.94-5.5-4-3.9 5.53-.8z"
+            />
+          </svg>
+        );
+      })}
+    </span>
+  );
+}
+
+/* Everything that earns the click lives in the first screen: the problem, the
+   answer, both actions, the channels, and the proof.
+
+   On the repetition question — the channels are shown once, as logos, because
+   the marketplace list is the moat. The partner claim is a different claim
+   (certified by those platforms, not merely connected to them) so it is set as
+   one short line of text beside the G2 score rather than a second logo row.
+   No mark appears twice as a logo. */
 export function Hero() {
   return (
     <section className="relative isolate overflow-hidden">
-      {/* Soft, single-source light behind the fold. No banded gradient. */}
       <div
         aria-hidden="true"
         className="pointer-events-none absolute inset-x-0 -top-40 -z-10 h-[520px] opacity-[0.55]"
@@ -18,22 +65,20 @@ export function Hero() {
         }}
       />
 
-      <div className="container-x pt-16 pb-14 md:pt-24 md:pb-20 lg:pt-28">
+      <div className="container-x pt-8 pb-12 sm:pt-11 md:pt-14 md:pb-14">
         <div className="mx-auto max-w-4xl text-center">
           <h1 className="t-display mx-auto max-w-[16ch] text-ink text-balance">
             A late reply is a lost order
           </h1>
 
-          <p className="t-lead mx-auto mt-6 max-w-[58ch] text-ink-3 md:mt-7">
-            Your customers message on Shopee, Lazada, TikTok Shop, LINE and
-            WhatsApp, and they expect an answer now. Zaapi puts every channel in
-            one inbox with order history attached, and an AI agent answers up to
-            92% of enquiries in seconds. Your team handles what actually needs a
-            human.
+          <p className="t-lead mx-auto mt-5 max-w-[68ch] text-ink-3 md:mt-6">
+            One inbox for every marketplace and chat channel, where an AI agent
+            answers up to 92% of enquiries in seconds and your team takes the
+            rest.
           </p>
 
-          <div className="mt-9 flex flex-col items-stretch justify-center gap-3 sm:flex-row sm:items-center md:mt-10">
-            <LinkButton href="/signup" size="lg" data-cta="hero-trial">
+          <div className="mt-7 flex flex-col items-stretch justify-center gap-2.5 sm:flex-row sm:items-center sm:gap-3 md:mt-8">
+            <LinkButton href="/signup" size="lg" data-cta="hero-trial" className="h-12 sm:h-[52px]">
               Start free trial
             </LinkButton>
             <LinkButton
@@ -41,29 +86,51 @@ export function Hero() {
               variant="secondary"
               size="lg"
               data-cta="hero-tour"
-              className="group"
+              className="group h-12 sm:h-[52px]"
             >
               See it first, no sign up needed
               <IconArrowDown className="size-4 text-muted transition-transform duration-200 group-hover:translate-y-0.5" />
             </LinkButton>
           </div>
 
-          <p className="t-small mt-5 text-muted">
+          <p className="t-small mt-3.5 text-muted">
             No credit card. Two minutes to connect your first channel.
           </p>
         </div>
 
-        {/* The channels, in real logos, inside the first fold. */}
-        <div className="mt-14 md:mt-16">
-          <p className="t-eyebrow text-center text-faint">One inbox for</p>
-          <ul className="mt-6 flex flex-wrap items-center justify-center gap-x-7 gap-y-5 sm:gap-x-10">
+        {/* Marks only. Spelling out every platform name made the fold read as a
+            paragraph; the logos are recognised faster and take a third of the
+            room. Names still reach screen readers through each logo's alt. */}
+        <div className="mt-8 md:mt-11">
+          <p className="t-eyebrow text-center text-faint">Supported platforms</p>
+          <ul className="mt-4 flex flex-wrap items-center justify-center gap-x-4 gap-y-4 sm:mt-5 sm:gap-x-8">
             {allChannels.map((c) => (
-              <li key={c.name} className="flex items-center gap-2.5">
-                <BrandLogo name={c.brand} className="h-6 w-auto shrink-0 sm:h-7" />
-                <span className="t-small font-medium text-ink-3">{c.name}</span>
+              <li key={c.name} className="flex">
+                <BrandLogo name={c.brand} className="h-5 w-auto shrink-0 sm:h-7" />
               </li>
             ))}
           </ul>
+        </div>
+
+        {/* One credibility line. G2 score, then the partner claim as text. */}
+        <div className="mt-6 flex flex-wrap items-center justify-center gap-x-4 gap-y-2 border-t border-line pt-5 sm:gap-x-5 md:mt-8 md:pt-6">
+          <span className="flex items-center gap-2">
+            <BrandLogo name="g2" className="h-[19px] w-auto shrink-0" />
+            <Stars value={RATING} />
+            <span className="t-small text-muted">
+              <span className="font-semibold text-ink">{RATING}</span> out of 5
+            </span>
+          </span>
+
+          <span className="hidden h-4 w-px bg-line sm:block" />
+
+          <p className="t-small text-center text-muted">
+            Official{" "}
+            <span className="font-semibold text-ink-2">
+              {partnerBrands.map((p) => p.name).join(", ").replace(/, ([^,]*)$/, " and $1")}
+            </span>{" "}
+            partner
+          </p>
         </div>
       </div>
     </section>

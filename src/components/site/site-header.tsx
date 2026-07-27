@@ -5,7 +5,32 @@ import { useEffect, useState } from "react";
 import { LinkButton } from "@/components/ui/button";
 import { Logo } from "@/components/site/logo";
 
-const nav = [{ label: "Product tour", href: "/#tour" }];
+/* Structural nav, shown to make the page read as a real site. These are not
+   wired to anything in this build — rendered as non-interactive items rather
+   than dead links so nothing 404s. */
+const nav: { label: string; hasMenu: boolean }[] = [
+  { label: "Product", hasMenu: true },
+  { label: "Use cases", hasMenu: true },
+  { label: "Resources", hasMenu: true },
+  { label: "Pricing", hasMenu: false },
+];
+
+function Chevron() {
+  return (
+    <svg
+      viewBox="0 0 20 20"
+      fill="none"
+      stroke="currentColor"
+      strokeWidth={1.8}
+      strokeLinecap="round"
+      strokeLinejoin="round"
+      className="size-3.5 opacity-60"
+      aria-hidden="true"
+    >
+      <path d="m5.8 8 4.2 4.2L14.2 8" />
+    </svg>
+  );
+}
 
 export function SiteHeader() {
   const [scrolled, setScrolled] = useState(false);
@@ -33,18 +58,18 @@ export function SiteHeader() {
           : "border-b border-transparent bg-white"
       }`}
     >
-      <div className="container-x flex h-16 items-center justify-between gap-6 sm:h-[72px]">
+      <div className="container-x flex h-14 items-center justify-between gap-6 sm:h-16">
         <Logo />
 
-        <nav className="hidden items-center gap-8 md:flex">
+        <nav className="hidden items-center gap-7 lg:flex">
           {nav.map((item) => (
-            <Link
-              key={item.href}
-              href={item.href}
-              className="t-small font-medium text-ink-3 transition-colors hover:text-ink"
+            <span
+              key={item.label}
+              className="t-small flex cursor-default items-center gap-1 font-medium text-ink-3 transition-colors hover:text-ink"
             >
               {item.label}
-            </Link>
+              {item.hasMenu && <Chevron />}
+            </span>
           ))}
         </nav>
 
@@ -63,7 +88,7 @@ export function SiteHeader() {
             aria-label={open ? "Close menu" : "Open menu"}
             aria-expanded={open}
             onClick={() => setOpen((v) => !v)}
-            className="-mr-1 flex h-10 w-10 items-center justify-center rounded-full text-ink md:hidden"
+            className="-mr-1 flex h-10 w-10 items-center justify-center rounded-full text-ink lg:hidden"
           >
             <span className="relative block h-3.5 w-5">
               <span
@@ -82,18 +107,24 @@ export function SiteHeader() {
       </div>
 
       {open && (
-        <div className="border-t border-line bg-white md:hidden">
+        <div className="border-t border-line bg-white lg:hidden">
           <nav className="container-x flex flex-col py-2">
-            {[...nav, { label: "Book a demo", href: "/demo" }].map((item) => (
-              <Link
-                key={item.href}
-                href={item.href}
-                onClick={() => setOpen(false)}
-                className="t-h4 border-b border-line-soft py-4 text-ink last:border-0"
+            {nav.map((item) => (
+              <span
+                key={item.label}
+                className="t-h4 flex cursor-default items-center justify-between border-b border-line-soft py-4 text-ink"
               >
                 {item.label}
-              </Link>
+                {item.hasMenu && <Chevron />}
+              </span>
             ))}
+            <Link
+              href="/demo"
+              onClick={() => setOpen(false)}
+              className="t-h4 py-4 text-ink"
+            >
+              Book a demo
+            </Link>
           </nav>
         </div>
       )}

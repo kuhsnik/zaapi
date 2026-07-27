@@ -1,153 +1,219 @@
 import { BrandLogo, type BrandKey } from "@/components/ui/brand-logo";
 
-/* The launcher surface behind the tour button. Everything here is CSS —
-   drifting light, one slow sheen pass, pulsing rings under the play control —
-   so it costs nothing at runtime and stops the moment a visitor has
-   prefers-reduced-motion set (handled globally in globals.css). */
+/* One idea, drawn once: every channel curves into a single point, and that
+   point is the button.
 
-const floatingChips: { brand: BrandKey; label: string; pos: string; delay: string }[] =
-  [
-    { brand: "shopee", label: "Where is my order?", pos: "left-[6%] top-[16%]", delay: "0s" },
-    { brand: "line", label: "มีไซส์ 42 ไหมครับ", pos: "right-[7%] top-[26%]", delay: "1.6s" },
-    { brand: "whatsapp", label: "Change my address", pos: "left-[11%] bottom-[18%]", delay: "3.1s" },
-    { brand: "lazada", label: "Refund status?", pos: "right-[9%] bottom-[14%]", delay: "2.3s" },
-  ];
+   Deliberately quiet. No dot grid, no sheen sweep, no rotating rings, no
+   floating text — those were four effects competing for the same attention.
+   What is left is a dark field, seven logo tiles on two arcs, smooth bezier
+   curves converging on the centre, and one slow pulse of light travelling down
+   each curve. Everything stops under prefers-reduced-motion (globals.css). */
+
+type Tile = {
+  brand: BrandKey;
+  /* centre point, as a percentage of the 16:10 stage */
+  x: number;
+  y: number;
+  delay: string;
+  /* a real-sounding enquiry for that channel */
+  msg: string;
+  /* hidden on phones, where the stage is ~220px tall and the middle band
+     belongs to the button */
+  wideOnly?: boolean;
+};
+
+/* Four a side, mirrored. An odd count left one arc short and the whole frame
+   read lopsided. */
+const TILES: Tile[] = [
+  { brand: "shopee", x: 18, y: 22, delay: "0s", msg: "Where is my order?" },
+  { brand: "lazada", x: 11.5, y: 40.5, delay: "1.75s", msg: "Refund status?", wideOnly: true },
+  { brand: "tiktok", x: 11.5, y: 59.5, delay: "3.5s", msg: "Bundle still on?", wideOnly: true },
+  { brand: "line", x: 18, y: 78, delay: "5.25s", msg: "มีไซส์ 42 ไหมครับ" },
+  { brand: "whatsapp", x: 82, y: 22, delay: "0.87s", msg: "Change my address?" },
+  { brand: "facebook", x: 88.5, y: 40.5, delay: "2.62s", msg: "Ship to Penang?", wideOnly: true },
+  { brand: "instagram", x: 88.5, y: 59.5, delay: "4.37s", msg: "Still available?", wideOnly: true },
+  { brand: "gmail", x: 82, y: 78, delay: "6.12s", msg: "Invoice for #SP-4821" },
+];
+
+const CYCLE = 7;
+const VW = 1600;
+const VH = 1000;
+const CX = VW / 2;
+const CY = VH / 2;
+
+/* Horizontal control points give the curve a flat entry into the centre, so the
+   seven paths arrive parallel rather than radiating like a starburst. */
+function curve(t: Tile) {
+  const x = (t.x / 100) * VW;
+  const y = (t.y / 100) * VH;
+  const left = x < CX;
+  const c1x = left ? x + 300 : x - 300;
+  const c2x = left ? CX - 260 : CX + 260;
+  return `M ${x} ${y} C ${c1x} ${y}, ${c2x} ${CY}, ${CX} ${CY}`;
+}
 
 function PlayGlyph() {
   return (
-    <svg viewBox="0 0 24 24" className="size-[18px]" aria-hidden="true">
-      <path fill="currentColor" d="M8.4 5.6v12.8L19 12 8.4 5.6Z" />
+    <svg viewBox="0 0 24 24" className="size-4" aria-hidden="true">
+      <path fill="currentColor" d="M8.6 5.8v12.4L18.6 12 8.6 5.8Z" />
     </svg>
   );
 }
 
 export function TourStage() {
   return (
-    <div className="relative isolate aspect-[16/10] w-full overflow-hidden rounded-2xl border border-white/10 bg-ink">
-      {/* drifting light */}
+    <div className="relative isolate aspect-[16/9] w-full overflow-hidden rounded-2xl border border-white/10 bg-[#0B1220]">
+      {/* one soft light, centred under the button */}
       <div
         aria-hidden="true"
-        className="pointer-events-none absolute inset-0 -z-10"
-        style={{ animation: "drift-a 26s ease-in-out infinite" }}
-      >
-        <div
-          className="absolute top-[-25%] left-[-10%] h-[85%] w-[70%] rounded-full blur-3xl"
-          style={{
-            background:
-              "radial-gradient(circle, rgba(0,198,168,0.5) 0%, rgba(0,198,168,0) 68%)",
-          }}
-        />
-      </div>
-      <div
-        aria-hidden="true"
-        className="pointer-events-none absolute inset-0 -z-10"
-        style={{ animation: "drift-b 32s ease-in-out infinite" }}
-      >
-        <div
-          className="absolute right-[-12%] bottom-[-28%] h-[85%] w-[65%] rounded-full blur-3xl"
-          style={{
-            background:
-              "radial-gradient(circle, rgba(78,220,202,0.34) 0%, rgba(78,220,202,0) 70%)",
-          }}
-        />
-      </div>
-
-      {/* dot grid */}
-      <div
-        aria-hidden="true"
-        className="pointer-events-none absolute inset-0 -z-10 opacity-[0.35]"
-        style={{
-          backgroundImage:
-            "radial-gradient(rgba(255,255,255,0.18) 1px, transparent 1px)",
-          backgroundSize: "22px 22px",
-          maskImage:
-            "radial-gradient(75% 65% at 50% 50%, #000 30%, transparent 100%)",
-          WebkitMaskImage:
-            "radial-gradient(75% 65% at 50% 50%, #000 30%, transparent 100%)",
-        }}
-      />
-
-      {/* one slow pass of light across the frame */}
-      <div
-        aria-hidden="true"
-        className="pointer-events-none absolute inset-y-0 -z-10 w-1/3"
+        className="pointer-events-none absolute inset-0 -z-20"
         style={{
           background:
-            "linear-gradient(90deg, transparent, rgba(255,255,255,0.07), transparent)",
-          animation: "sheen 9s ease-in-out infinite",
+            "radial-gradient(46% 52% at 50% 50%, rgba(0,198,168,0.20) 0%, rgba(0,198,168,0.05) 45%, rgba(11,18,32,0) 72%)",
+        }}
+      />
+      {/* edge falloff, so the frame reads as depth rather than a flat block */}
+      <div
+        aria-hidden="true"
+        className="pointer-events-none absolute inset-0 -z-20"
+        style={{
+          background:
+            "radial-gradient(120% 100% at 50% 50%, rgba(11,18,32,0) 55%, rgba(6,11,20,0.85) 100%)",
         }}
       />
 
-      {/* channel chips, drifting — the enquiries the tour walks through */}
-      {floatingChips.map((c) => (
+      <svg
+        aria-hidden="true"
+        viewBox={`0 0 ${VW} ${VH}`}
+        preserveAspectRatio="none"
+        className="pointer-events-none absolute inset-0 -z-10 h-full w-full"
+      >
+        <defs>
+          <linearGradient id="wireL" x1="0" y1="0" x2="1" y2="0">
+            <stop offset="0%" stopColor="#4EDCCA" stopOpacity="0.05" />
+            <stop offset="100%" stopColor="#4EDCCA" stopOpacity="0.4" />
+          </linearGradient>
+          <linearGradient id="wireR" x1="1" y1="0" x2="0" y2="0">
+            <stop offset="0%" stopColor="#4EDCCA" stopOpacity="0.05" />
+            <stop offset="100%" stopColor="#4EDCCA" stopOpacity="0.4" />
+          </linearGradient>
+        </defs>
+
+        {TILES.map((t) => {
+          const d = curve(t);
+          const left = t.x < 50;
+          return (
+            <g
+              key={t.brand}
+              className={t.wideOnly ? "hidden sm:inline" : undefined}
+            >
+              <path
+                d={d}
+                pathLength={1000}
+                fill="none"
+                stroke={left ? "url(#wireL)" : "url(#wireR)"}
+                strokeWidth={1.6}
+              />
+              <path
+                d={d}
+                pathLength={1000}
+                fill="none"
+                stroke="#7FF0DF"
+                strokeWidth={2.6}
+                strokeLinecap="round"
+                strokeDasharray="46 954"
+                style={{
+                  animation: `flow ${CYCLE}s cubic-bezier(0.4, 0, 0.5, 1) infinite`,
+                  animationDelay: t.delay,
+                  filter: "drop-shadow(0 0 5px rgba(127,240,223,0.75))",
+                }}
+              />
+            </g>
+          );
+        })}
+      </svg>
+
+      {/* channel tiles — one shape, one size, evenly weighted */}
+      {TILES.map((t) => (
         <div
-          key={c.label}
+          key={t.brand}
           aria-hidden="true"
-          className={`pointer-events-none absolute hidden items-center gap-2 rounded-full border border-white/10 bg-white/8 px-3 py-2 backdrop-blur-md sm:flex ${c.pos}`}
-          style={{
-            animation: `float-chip 7.5s ease-in-out infinite`,
-            animationDelay: c.delay,
-          }}
+          className={`pointer-events-none absolute z-10 -translate-x-1/2 -translate-y-1/2 ${
+            t.wideOnly ? "hidden sm:block" : ""
+          }`}
+          style={{ left: `${t.x}%`, top: `${t.y}%` }}
         >
-          <span className="flex size-5 items-center justify-center rounded-full bg-white">
-            <BrandLogo name={c.brand} className="h-3 w-auto" decorative />
-          </span>
-          <span className="text-[12px] font-medium whitespace-nowrap text-white/80">
-            {c.label}
+          <div
+            className="flex size-10 items-center justify-center rounded-[13px] border border-white/70 bg-white shadow-[0_10px_28px_-8px_rgba(0,0,0,0.75)] sm:size-[52px] sm:rounded-[16px]"
+            style={{
+              animation: `tile-pulse ${CYCLE}s ease-in-out infinite`,
+              animationDelay: t.delay,
+            }}
+          >
+            <BrandLogo name={t.brand} className="h-[18px] w-auto sm:h-6" />
+          </div>
+
+          {/* Anchored to the tile's outer edge so it can never leave the frame,
+              and sized off the stage width so it scales with it. */}
+          <span
+            className={`absolute top-1/2 hidden -translate-y-1/2 whitespace-nowrap rounded-full border border-white/10 bg-white/10 px-3 py-1.5 text-[11.5px] font-medium text-white/70 backdrop-blur-md md:block ${
+              t.x < 50 ? "left-full ml-3" : "right-full mr-3"
+            }`}
+            style={{
+              animation: `msg-in ${CYCLE}s ease-in-out infinite`,
+              animationDelay: t.delay,
+              opacity: 0,
+            }}
+          >
+            {t.msg}
           </span>
         </div>
       ))}
 
-      {/* launcher */}
-      <div className="absolute inset-0 flex flex-col items-center justify-center px-6 text-center">
-        <div className="relative">
+      {/* the convergence point */}
+      <div className="absolute inset-0 z-20 flex flex-col items-center justify-center px-6 text-center">
+        <div className="relative flex items-center justify-center">
           <span
             aria-hidden="true"
-            className="absolute inset-0 -z-10 rounded-full border border-teal/40"
-            style={{ animation: "ring 3.4s ease-out infinite" }}
-          />
-          <span
-            aria-hidden="true"
-            className="absolute inset-0 -z-10 rounded-full border border-teal/30"
-            style={{ animation: "ring 3.4s ease-out infinite", animationDelay: "1.7s" }}
+            className="absolute size-[190px] rounded-full blur-3xl sm:size-[280px]"
+            style={{
+              background:
+                "radial-gradient(circle, rgba(0,198,168,0.5) 0%, rgba(0,198,168,0) 70%)",
+              animation: "breathe 6s ease-in-out infinite",
+            }}
           />
 
           {/* The deckoholic trigger. This exact attribute is what the embed
               script binds the popup to. */}
-          <button
-            type="button"
-            data-deckoholic-walkthrough="kkpyxCBoHFjINtUz"
-            data-cta="tour-launch"
-            className="group inline-flex h-14 items-center gap-3 rounded-full bg-white pr-7 pl-3 text-[15px] font-semibold text-ink shadow-[0_10px_40px_-10px_rgba(0,0,0,0.6)] transition-transform duration-200 hover:scale-[1.02] active:scale-[0.99] sm:h-[60px] sm:text-base"
+          {/* Heartbeat lives on the wrapper so the button keeps its own
+              hover/active transform without the two fighting. */}
+          <span
+            className="relative inline-flex"
+            style={{ animation: "heartbeat 5.5s ease-in-out infinite" }}
           >
-            <span className="mark-gradient flex size-10 items-center justify-center rounded-full text-ink sm:size-11">
-              <PlayGlyph />
-            </span>
-            Start interactive tour
-          </button>
+            <button
+              type="button"
+              data-deckoholic-walkthrough="kkpyxCBoHFjINtUz"
+              data-cta="tour-launch"
+              className="group relative inline-flex h-12 items-center gap-2.5 overflow-hidden rounded-full bg-white pr-5 pl-1.5 text-[13.5px] font-semibold text-ink shadow-[0_18px_50px_-12px_rgba(0,0,0,0.8)] transition-transform duration-200 hover:scale-[1.03] active:scale-[0.99] sm:h-[58px] sm:gap-3 sm:pr-7 sm:pl-2 sm:text-[15.5px]"
+            >
+              {/* glossy sweep */}
+              <span
+                aria-hidden="true"
+                className="pointer-events-none absolute inset-y-0 -left-1/3 w-1/3"
+                style={{
+                  background:
+                    "linear-gradient(90deg, rgba(255,255,255,0) 0%, rgba(15,23,42,0.07) 50%, rgba(255,255,255,0) 100%)",
+                  animation: "gloss 5.5s ease-in-out infinite",
+                }}
+              />
+              <span className="mark-gradient relative flex size-9 items-center justify-center rounded-full text-ink transition-transform duration-300 group-hover:scale-105 sm:size-[42px]">
+                <PlayGlyph />
+              </span>
+              <span className="relative">Start interactive tour</span>
+            </button>
+          </span>
         </div>
-
-        <p className="mt-5 text-[13px] font-medium text-white/55">
-          Two minutes · No sign up needed
-        </p>
-      </div>
-
-      {/* frame furniture */}
-      <div className="pointer-events-none absolute inset-x-0 top-0 flex items-center justify-between px-4 py-3.5 sm:px-5">
-        <span className="flex items-center gap-2">
-          <span className="relative flex size-1.5">
-            <span
-              className="absolute inline-flex size-full rounded-full bg-teal"
-              style={{ animation: "blink 2.4s ease-in-out infinite" }}
-            />
-          </span>
-          <span className="text-[11px] font-semibold tracking-[0.13em] text-white/50 uppercase">
-            Zaapi product tour
-          </span>
-        </span>
-        <span className="hidden text-[11px] font-medium text-white/40 sm:block">
-          Live product · not a video
-        </span>
       </div>
     </div>
   );

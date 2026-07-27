@@ -35,7 +35,6 @@
 html {
   -webkit-text-size-adjust: 100%;
   scroll-behavior: smooth;
-  scroll-padding-top: 84px;
 }
 
 @media (prefers-reduced-motion: reduce) {
@@ -76,7 +75,7 @@ body {
    type sets tight; body sizes stay near-natural for readability. */
 @utility t-display {
   font-family: var(--font-display);
-  font-size: clamp(2.375rem, 1.52rem + 3.65vw, 4.25rem);
+  font-size: clamp(2.0625rem, 1.05rem + 4.3vw, 4.25rem);
   line-height: 1.03;
   letter-spacing: -0.034em;
   font-weight: 600;
@@ -107,7 +106,7 @@ body {
 }
 
 @utility t-lead {
-  font-size: clamp(1.0625rem, 1rem + 0.42vw, 1.3125rem);
+  font-size: clamp(1rem, 0.93rem + 0.42vw, 1.3125rem);
   line-height: 1.55;
   letter-spacing: -0.011em;
 }
@@ -272,5 +271,167 @@ body {
   }
   50% {
     transform: translateY(-7px);
+  }
+}
+
+/* A short bright dash runs each wire from its channel node into the centre.
+   pathLength is normalised to 1000 so every wire takes the same time
+   regardless of how long it actually is. */
+@keyframes flow {
+  0% {
+    stroke-dashoffset: 1000;
+    opacity: 0;
+  }
+  12% {
+    opacity: 1;
+  }
+  88% {
+    opacity: 1;
+  }
+  100% {
+    stroke-dashoffset: 0;
+    opacity: 0;
+  }
+}
+
+/* The AI core: a ring that turns steadily, like work being processed. */
+@keyframes spin {
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+@keyframes spin-rev {
+  to {
+    transform: rotate(-360deg);
+  }
+}
+
+/* Core answers back each time a message lands. */
+@keyframes core-pulse {
+  0%,
+  100% {
+    transform: scale(1);
+    opacity: 0.55;
+  }
+  50% {
+    transform: scale(1.09);
+    opacity: 0.9;
+  }
+}
+
+/* Each tile lifts and blooms a soft ring at the moment its wire fires, then
+   settles. Tailwind v4 sets centring on the `translate` property, so animating
+   `transform` here does not fight the -translate-x-1/2 that positions it.
+
+   Timed to the wire cycle and sharing its delay, so the tile reacts exactly as
+   the light leaves it — it reads as "this channel just sent something" rather
+   than as decoration on a timer. */
+@keyframes tile-pulse {
+  0% {
+    transform: scale(1) translateY(0);
+    box-shadow:
+      0 10px 28px -8px rgba(0, 0, 0, 0.75),
+      0 0 0 0 rgba(0, 198, 168, 0);
+  }
+  5% {
+    transform: scale(1.075) translateY(-4px);
+    box-shadow:
+      0 16px 34px -8px rgba(0, 0, 0, 0.8),
+      0 0 0 7px rgba(0, 198, 168, 0.18);
+  }
+  16% {
+    transform: scale(1) translateY(0);
+    box-shadow:
+      0 10px 28px -8px rgba(0, 0, 0, 0.75),
+      0 0 0 16px rgba(0, 198, 168, 0);
+  }
+  50% {
+    transform: scale(1) translateY(-5px);
+  }
+  100% {
+    transform: scale(1) translateY(0);
+    box-shadow:
+      0 10px 28px -8px rgba(0, 0, 0, 0.75),
+      0 0 0 0 rgba(0, 198, 168, 0);
+  }
+}
+
+/* Two beats, then a long rest. Small amplitude — this is an invitation, not a
+   bounce. Lives on a wrapper so the button keeps its own hover transform. */
+@keyframes heartbeat {
+  0%,
+  82%,
+  100% {
+    transform: scale(1);
+  }
+  86% {
+    transform: scale(1.035);
+  }
+  89% {
+    transform: scale(0.997);
+  }
+  93% {
+    transform: scale(1.02);
+  }
+  97% {
+    transform: scale(1);
+  }
+}
+
+/* A message surfaces beside its tile exactly when that channel fires, holds
+   briefly, then clears. Sharing the wire's cycle and delay means only one or
+   two are ever on screen — the frame stays calm instead of becoming a wall of
+   floating pills. */
+@keyframes msg-in {
+  0% {
+    opacity: 0;
+    transform: translateY(7px) scale(0.96);
+  }
+  5% {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
+  24% {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
+  32%,
+  100% {
+    opacity: 0;
+    transform: translateY(-5px) scale(0.98);
+  }
+}
+
+/* A single pass of light across the button face, then a long pause. */
+@keyframes gloss {
+  0% {
+    transform: translateX(-180%) skewX(-20deg);
+  }
+  42%,
+  100% {
+    transform: translateX(420%) skewX(-20deg);
+  }
+}
+
+@keyframes breathe {
+  0%,
+  100% {
+    transform: scale(0.95);
+    opacity: 0.75;
+  }
+  50% {
+    transform: scale(1.06);
+    opacity: 1;
+  }
+}
+
+@keyframes node-bob {
+  0%,
+  100% {
+    transform: translate3d(-50%, -50%, 0);
+  }
+  50% {
+    transform: translate3d(-50%, calc(-50% - 6px), 0);
   }
 }

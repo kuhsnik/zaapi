@@ -13,7 +13,8 @@ export type BrandKey =
   | "facebook"
   | "instagram"
   | "meta"
-  | "g2";
+  | "g2"
+  | "gmail";
 
 const TITLES: Record<BrandKey, string> = {
   shopee: "Shopee",
@@ -25,6 +26,7 @@ const TITLES: Record<BrandKey, string> = {
   instagram: "Instagram",
   meta: "Meta",
   g2: "G2",
+  gmail: "Email",
 };
 
 export function BrandLogo({

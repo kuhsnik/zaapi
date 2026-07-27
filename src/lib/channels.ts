@@ -15,6 +15,7 @@ export const messagingChannels: Channel[] = [
   { name: "WhatsApp", brand: "whatsapp" },
   { name: "Facebook", brand: "facebook" },
   { name: "Instagram", brand: "instagram" },
+  { name: "Email", brand: "gmail" },
 ];
 
 export const partnerBrands: { name: string; brand: BrandKey }[] = [
