@@ -2,7 +2,7 @@
 
 import { useState } from "react";
 import { Button } from "@/components/ui/button";
-import { Field } from "@/components/forms/field";
+import { Field, PhoneField } from "@/components/forms/field";
 import { IconCalendar, IconCheck, IconClock } from "@/components/ui/icons";
 
 type Step = "form" | "calendar" | "booked" | "later";
@@ -292,14 +292,7 @@ export function DemoFlow() {
           {/* Sales calls in these markets get confirmed on WhatsApp or LINE as
               often as by email, so the number earns its place on this form even
               though the sign-up page stays at four fields. */}
-          <Field
-            label="Phone or WhatsApp number"
-            name="phone"
-            type="tel"
-            inputMode="tel"
-            autoComplete="tel"
-            required
-          />
+          <PhoneField required />
         </div>
 
         <Button
