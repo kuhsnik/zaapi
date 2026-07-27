@@ -37,6 +37,16 @@ html {
   scroll-behavior: smooth;
 }
 
+/* Shortening the duration is not enough on its own: an animation set to
+   `infinite` still loops, so a near-zero duration makes it run thousands of
+   cycles a second and the element strobes. That is the exact opposite of what
+   someone enabling Reduce Motion is asking for, and it is what made the tour
+   tiles shake on an iPhone with the setting on (both Safari and Chrome, since
+   both are WebKit on iOS).
+
+   Capping the iteration count settles each animation on its final keyframe
+   immediately, and zeroing the delays stops staggered elements flashing in
+   sequence seconds later. */
 @media (prefers-reduced-motion: reduce) {
   html {
     scroll-behavior: auto;
@@ -44,8 +54,11 @@ html {
   *,
   *::before,
   *::after {
-    animation-duration: 0.001ms !important;
-    transition-duration: 0.001ms !important;
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    animation-delay: 0s !important;
+    transition-duration: 0.01ms !important;
+    transition-delay: 0s !important;
   }
 }
 
