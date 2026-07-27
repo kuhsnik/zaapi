@@ -52,11 +52,20 @@ function curve(t: Tile) {
   return `M ${x} ${y} C ${c1x} ${y}, ${c2x} ${CY}, ${CX} ${CY}`;
 }
 
-function PlayGlyph() {
+/* The Zaapi bolt rather than a generic play triangle — the mark is the brand,
+   and it sits at the exact point every channel converges on. White silhouette
+   of the real mark, since the mark's own teal would vanish on the teal disc. */
+function BoltMark() {
   return (
-    <svg viewBox="0 0 24 24" className="size-4" aria-hidden="true">
-      <path fill="currentColor" d="M8.6 5.8v12.4L18.6 12 8.6 5.8Z" />
-    </svg>
+    // eslint-disable-next-line @next/next/no-img-element
+    <img
+      src="/zaapi-mark-white.png"
+      alt=""
+      aria-hidden="true"
+      width={258}
+      height={343}
+      className="h-[17px] w-auto sm:h-[20px]"
+    />
   );
 }
 
@@ -207,8 +216,8 @@ export function TourStage() {
                   animation: "gloss 5.5s ease-in-out infinite",
                 }}
               />
-              <span className="mark-gradient relative flex size-9 items-center justify-center rounded-full text-ink transition-transform duration-300 group-hover:scale-105 sm:size-[42px]">
-                <PlayGlyph />
+              <span className="mark-gradient relative flex size-9 items-center justify-center rounded-full transition-transform duration-300 group-hover:scale-105 sm:size-[42px]">
+                <BoltMark />
               </span>
               <span className="relative">Start interactive tour</span>
             </button>
