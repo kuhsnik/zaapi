@@ -289,6 +289,17 @@ export function DemoFlow() {
             autoComplete="organization"
             required
           />
+          {/* Sales calls in these markets get confirmed on WhatsApp or LINE as
+              often as by email, so the number earns its place on this form even
+              though the sign-up page stays at four fields. */}
+          <Field
+            label="Phone or WhatsApp number"
+            name="phone"
+            type="tel"
+            inputMode="tel"
+            autoComplete="tel"
+            required
+          />
         </div>
 
         <Button
