@@ -103,9 +103,6 @@ export function Hero() {
             </LinkButton>
           </div>
 
-          <p className="t-small mt-3 text-muted">
-            No credit card. Two minutes to connect your first channel.
-          </p>
         </div>
 
         {/* Marks only. Spelling out every platform name made the fold read as a

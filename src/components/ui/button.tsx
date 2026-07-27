@@ -12,8 +12,12 @@ const base =
 const variants: Record<Variant, string> = {
   primary:
     "bg-ink text-white hover:bg-ink-2 shadow-[0_1px_2px_rgba(15,23,42,0.16),inset_0_1px_0_rgba(255,255,255,0.08)]",
+  /* A hairline in --color-line disappeared against the page and stopped
+     reading as a control. Darker edge plus a hint of elevation keeps it
+     clearly secondary while still looking clickable. */
   secondary:
-    "bg-white text-ink border border-line hover:border-ink/25 hover:bg-sand",
+    "bg-white text-ink border border-ink/25 hover:border-ink/50 hover:bg-sand " +
+    "shadow-[0_1px_2px_rgba(15,23,42,0.08)]",
   ghost: "text-ink-3 hover:text-ink",
 };
 
