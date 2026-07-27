@@ -16,7 +16,6 @@ const display = Inter_Tight({
 });
 
 export const metadata: Metadata = {
-  metadataBase: new URL("https://zaapi.com"),
   title: {
     default: "Zaapi — Every lead, every customer, answered on time",
     template: "%s · Zaapi",
@@ -24,6 +23,16 @@ export const metadata: Metadata = {
   description:
     "Fast replies win more deals and keep customers happy. Run every channel from one inbox, with AI agents beside your team.",
   icons: { icon: "/icon.png", apple: "/icon.png" },
+
+  /* Assessment build on Zaapi's branding — never index it. Belt and braces
+     with /robots.txt (src/app/robots.ts): the meta tag covers pages a crawler
+     reaches directly, robots.txt covers discovery. */
+  robots: {
+    index: false,
+    follow: false,
+    nocache: true,
+    googleBot: { index: false, follow: false, noimageindex: true },
+  },
   openGraph: {
     title: "Zaapi — Every lead, every customer, answered on time",
     description:
