@@ -18,14 +18,14 @@ const display = Inter_Tight({
 export const metadata: Metadata = {
   metadataBase: new URL("https://zaapi.com"),
   title: {
-    default: "Zaapi — A late reply is a lost order",
+    default: "Zaapi — Every lead, every customer, answered on time",
     template: "%s · Zaapi",
   },
   description:
-    "Every marketplace and messaging channel in one inbox with order history attached, and an AI agent that answers up to 92% of enquiries in seconds.",
+    "No enquiry left waiting, no deal lost to a slow reply — every marketplace, chat and inbox, with AI agents beside your team.",
   icons: { icon: "/icon.png", apple: "/icon.png" },
   openGraph: {
-    title: "Zaapi — A late reply is a lost order",
+    title: "Zaapi — Every lead, every customer, answered on time",
     description:
       "One inbox for every marketplace and messaging channel, with an AI agent handling the first layer.",
     type: "website",
