@@ -146,7 +146,7 @@ export function SignupForm() {
       </form>
 
       <p className="t-small mt-4 font-medium text-ink-3">
-        Free for 14 days. No credit card.
+        Free for 14 days. No credit card required.
       </p>
     </div>
   );

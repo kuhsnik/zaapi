@@ -60,7 +60,7 @@ export default function DemoPage() {
 
               <div className="mt-10 border-t border-line pt-8">
                 <p className="t-h4 text-ink">
-                  Would rather not talk to anyone yet?
+                  Rather not talk to anyone yet?
                 </p>
                 <p className="t-small mt-2 max-w-[46ch] text-muted">
                   The interactive tour on the homepage runs about two minutes

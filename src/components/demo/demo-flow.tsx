@@ -302,13 +302,6 @@ export function DemoFlow() {
         </Button>
       </form>
 
-      <p className="mt-3.5 flex gap-2 text-[12.5px] leading-relaxed text-muted">
-        <IconCheck className="mt-[3px] size-3.5 shrink-0 text-teal-600" />
-        <span>
-          Your details are saved when you press this button, not when you book.
-          If the calendar does not suit you, we still follow up.
-        </span>
-      </p>
     </div>
   );
 }
