@@ -72,16 +72,19 @@ export function Hero() {
               are answered on time and reach the right team.
 
               Subhead is active and positive: what fast replies win, not what
-              slow ones cost. The headline already names the stakes, so the line
-              under it does not need to repeat them in the negative. No figures
-              either — a percentage in the first breath invites an argument. */}
+              slow ones cost. It deliberately does not reopen with "answer on
+              time" — the headline already said that, and repeating it spends
+              the strongest position in the sentence on an echo. This line adds
+              the two outcomes (deals won, customers kept) and the shape of the
+              product instead. No figures either; a percentage in the first
+              breath invites an argument. */}
           <h1 className="t-display mx-auto max-w-[19ch] text-ink text-balance">
             Every lead, every customer, answered on time
           </h1>
 
           <p className="t-lead mx-auto mt-5 max-w-[68ch] text-ink-3 md:mt-6">
-            Answer on time, win more deals with fast replies, and run every
-            channel from one inbox with AI agents beside your team.
+            Fast replies win more deals and keep customers happy. Run every
+            channel from one inbox, with AI agents beside your team.
           </p>
 
           <div className="mt-7 flex flex-col items-stretch justify-center gap-2.5 sm:flex-row sm:items-center sm:gap-3 md:mt-8">
