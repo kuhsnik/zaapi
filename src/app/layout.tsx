@@ -22,7 +22,7 @@ export const metadata: Metadata = {
     template: "%s · Zaapi",
   },
   description:
-    "No enquiry left waiting, no deal lost to a slow reply — every marketplace, chat and inbox, with AI agents beside your team.",
+    "Answer on time, win more deals with fast replies, and run every channel from one inbox with AI agents beside your team.",
   icons: { icon: "/icon.png", apple: "/icon.png" },
   openGraph: {
     title: "Zaapi — Every lead, every customer, answered on time",

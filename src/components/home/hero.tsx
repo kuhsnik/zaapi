@@ -65,22 +65,23 @@ export function Hero() {
         }}
       />
 
-      <div className="container-x pt-7 pb-12 sm:pt-11 md:pt-14 md:pb-14">
+      <div className="container-x pt-6 pb-12 sm:pt-11 md:pt-14 md:pb-14">
         <div className="mx-auto max-w-4xl text-center">
           {/* Not framed as sales. The people messaging are cold leads, repeat
               buyers and complaints alike, and the promise is that all of them
               are answered on time and reach the right team.
 
-              No figures in the subhead — it carries the stakes and the shape of
-              the product, and a percentage in the first breath reads as a claim
-              to be argued with rather than a problem to be recognised. */}
+              Subhead is active and positive: what fast replies win, not what
+              slow ones cost. The headline already names the stakes, so the line
+              under it does not need to repeat them in the negative. No figures
+              either — a percentage in the first breath invites an argument. */}
           <h1 className="t-display mx-auto max-w-[19ch] text-ink text-balance">
             Every lead, every customer, answered on time
           </h1>
 
           <p className="t-lead mx-auto mt-5 max-w-[68ch] text-ink-3 md:mt-6">
-            No enquiry left waiting, no deal lost to a slow reply — every
-            marketplace, chat and inbox, with AI agents beside your team.
+            Answer on time, win more deals with fast replies, and run every
+            channel from one inbox with AI agents beside your team.
           </p>
 
           <div className="mt-7 flex flex-col items-stretch justify-center gap-2.5 sm:flex-row sm:items-center sm:gap-3 md:mt-8">
@@ -99,7 +100,7 @@ export function Hero() {
             </LinkButton>
           </div>
 
-          <p className="t-small mt-3.5 text-muted">
+          <p className="t-small mt-3 text-muted">
             No credit card. Two minutes to connect your first channel.
           </p>
         </div>
@@ -107,7 +108,7 @@ export function Hero() {
         {/* Marks only. Spelling out every platform name made the fold read as a
             paragraph; the logos are recognised faster and take a third of the
             room. Names still reach screen readers through each logo's alt. */}
-        <div className="mt-6 md:mt-11">
+        <div className="mt-5 md:mt-11">
           <p className="t-eyebrow text-center text-faint">Supported platforms</p>
           <ul className="mt-4 flex flex-wrap items-center justify-center gap-x-4 gap-y-4 sm:mt-5 sm:gap-x-8">
             {allChannels.map((c) => (
@@ -119,7 +120,7 @@ export function Hero() {
         </div>
 
         {/* One credibility line. G2 score, then the partner claim as text. */}
-        <div className="mt-5 flex flex-wrap items-center justify-center gap-x-4 gap-y-2 border-t border-line pt-5 sm:gap-x-5 md:mt-8 md:pt-6">
+        <div className="mt-4 flex flex-wrap items-center justify-center gap-x-4 gap-y-2 border-t border-line pt-4 sm:gap-x-5 md:mt-8 md:pt-6">
           <span className="flex items-center gap-2">
             <BrandLogo name="g2" className="h-[19px] w-auto shrink-0" />
             <Stars value={RATING} />
