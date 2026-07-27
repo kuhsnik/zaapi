@@ -52,10 +52,14 @@ function Stars({ value }: { value: number }) {
    the marketplace list is the moat. The partner claim is a different claim
    (certified by those platforms, not merely connected to them) so it is set as
    one short line of text beside the G2 score rather than a second logo row.
-   No mark appears twice as a logo. */
+   No mark appears twice as a logo.
+
+   The section fills exactly one screen — svh rather than vh, so mobile browser
+   chrome is accounted for — which keeps the tour section from peeking into the
+   first fold on any device. */
 export function Hero() {
   return (
-    <section className="relative isolate overflow-hidden">
+    <section className="relative isolate flex min-h-[calc(100svh-56px)] flex-col justify-center overflow-hidden sm:min-h-[calc(100svh-64px)]">
       <div
         aria-hidden="true"
         className="pointer-events-none absolute inset-x-0 -top-40 -z-10 h-[520px] opacity-[0.55]"
@@ -105,15 +109,19 @@ export function Hero() {
 
         </div>
 
-        {/* Marks only. Spelling out every platform name made the fold read as a
-            paragraph; the logos are recognised faster and take a third of the
-            room. Names still reach screen readers through each logo's alt. */}
+        {/* Marks only, in grey. Spelling out every platform name made the fold
+            read as a paragraph, and eight brand palettes at full strength pulled
+            attention off the headline. Shapes stay recognisable; names still
+            reach screen readers through each logo's alt. */}
         <div className="mt-5 md:mt-11">
           <p className="t-eyebrow text-center text-faint">Supported platforms</p>
-          <ul className="mt-4 flex flex-wrap items-center justify-center gap-x-4 gap-y-4 sm:mt-5 sm:gap-x-8">
+          <ul className="mt-4 flex flex-wrap items-center justify-center gap-x-6 gap-y-4 sm:mt-5 sm:gap-x-8">
             {allChannels.map((c) => (
               <li key={c.name} className="flex">
-                <BrandLogo name={c.brand} className="h-5 w-auto shrink-0 sm:h-7" />
+                <BrandLogo
+                  name={c.brand}
+                  className="h-5 w-auto shrink-0 opacity-70 grayscale sm:h-7"
+                />
               </li>
             ))}
           </ul>

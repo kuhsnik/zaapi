@@ -69,16 +69,16 @@ export default function SignupPage() {
                 <p className="t-small font-medium text-muted">
                   Channels included from day one
                 </p>
-                <ul className="mt-4 flex flex-wrap gap-2">
+                {/* Marks only, matching the homepage. The names were doubling
+                    the width of the row for information the logo already
+                    carries; they still reach screen readers through the alt. */}
+                <ul className="mt-4 flex flex-wrap items-center gap-x-6 gap-y-4">
                   {[...marketplaceChannels, ...messagingChannels].map((c) => (
-                    <li
-                      key={c.name}
-                      className="inline-flex items-center gap-2 rounded-full border border-line bg-white py-1.5 pr-3.5 pl-2.5"
-                    >
-                      <BrandLogo name={c.brand} className="h-[15px] w-auto shrink-0" decorative />
-                      <span className="text-[13px] font-medium text-ink-2">
-                        {c.name}
-                      </span>
+                    <li key={c.name} className="flex">
+                      <BrandLogo
+                        name={c.brand}
+                        className="h-[22px] w-auto shrink-0 opacity-70 grayscale"
+                      />
                     </li>
                   ))}
                 </ul>
