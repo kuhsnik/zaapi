@@ -80,9 +80,25 @@ export function SiteHeader() {
           >
             Book a demo
           </Link>
-          <LinkButton href="/signup" data-cta="header-trial">
-            Start free trial
-          </LinkButton>
+
+          {/* On a phone the bar carries the demo instead of the trial: the
+              trial button is already in the fold directly below, so repeating
+              it spends the only slot in the header on a duplicate and leaves
+              the demo with no entry point at all. */}
+          {/* Visibility lives on the wrapper. Putting "hidden" on the button
+              itself fights the "inline-flex" already in its base class — same
+              specificity, so whichever Tailwind emits last wins and both
+              buttons render. */}
+          <span className="sm:hidden">
+            <LinkButton href="/demo" data-cta="header-demo">
+              Book a demo
+            </LinkButton>
+          </span>
+          <span className="hidden sm:block">
+            <LinkButton href="/signup" data-cta="header-trial">
+              Start free trial
+            </LinkButton>
+          </span>
           <button
             type="button"
             aria-label={open ? "Close menu" : "Open menu"}
